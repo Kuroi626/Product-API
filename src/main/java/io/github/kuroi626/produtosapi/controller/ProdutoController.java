@@ -3,6 +3,8 @@ import io.github.kuroi626.produtosapi.model.Produto;
 import io.github.kuroi626.produtosapi.repository.ProdutoRepository;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -29,6 +31,26 @@ public class ProdutoController {
         Optional<Produto> produto = produtoRepository.findById(id);
         return produto.orElse(null);
 
+
+    }
+
+    @DeleteMapping("{id}")
+    public void excluir(@PathVariable("id") String id){
+        produtoRepository.deleteById(id);
+    }
+
+    @PutMapping("{id}")
+    public Produto atualizar(@PathVariable("id") String id, @RequestBody Produto produto){
+
+        produto.setId(id);
+        produtoRepository.save(produto);
+        return produto;
+
+    }
+    @GetMapping
+    public List<Produto> obterProdutos(@RequestParam("nome")String nome){
+
+         return produtoRepository.findByNome(nome);
 
     }
 
